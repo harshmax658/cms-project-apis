@@ -32,5 +32,26 @@ const studentLogin = async (request, response) => {
     });
   }
 };
+const getStudent = async (request, response) => {
+  try {
+    const student = await Student.find({
+      course: "MCA",
+    });
+    if (student) {
+      return response.status(200).json({
+        message: "user found !!",
+        data: student,
+      });
+    }
+    return response.status(401).json({
+      message: "not found",
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      message: "Internal server error !!",
+    });
+  }
+};
 
-module.exports = { studentLogin };
+module.exports = { studentLogin, getStudent };
