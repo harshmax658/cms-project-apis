@@ -34,9 +34,11 @@ const studentLogin = async (request, response) => {
 };
 const getStudent = async (request, response) => {
   try {
+    console.log(request.params.course);
     const student = await Student.find({
-      course: "MCA",
+      course: request.params.course,
     });
+    console.log(student);
     if (student) {
       return response.status(200).json({
         message: "user found !!",
@@ -53,5 +55,18 @@ const getStudent = async (request, response) => {
     });
   }
 };
+const deleteStudent = async (request, response) => {
+  try {
+    const student = await Student.findByIdAndRemove(request.params.id);
+    console.log(student);
+    return response.status(200).json({
+      message: "Student delete Succesfully",
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: "Internal server error !!",
+    });
+  }
+};
 
-module.exports = { studentLogin, getStudent };
+module.exports = { studentLogin, getStudent, deleteStudent };
